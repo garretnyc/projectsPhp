@@ -1,4 +1,6 @@
 
+
+
 <?php ob_start(); ?>
 
 
@@ -35,7 +37,7 @@ while ($data = $posts->fetch())
         <p>
             <?= nl2br(htmlspecialchars($data['content'])) ?>
             <br />
-            <em><a href="post.php?id=<?= $data['id'] ?>">Commentaires</a></em>
+            <em><a href="viewPageArticle.php?id=<?= $data['id'] ?>">Commentaires</a></em>
         </p>
     </div>
 <?php
@@ -45,3 +47,5 @@ $posts->closeCursor();
 
 
 <?php $content =ob_get_clean(); ?>
+
+<?php require('template.php') ?>
