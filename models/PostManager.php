@@ -22,6 +22,37 @@ public function postArticles($title,$contentArticles){   //sould set this in pri
 
 }
 
+public function getArticles($articleId){
+    $db =$this ->dbConnect();
+    $req = $db->prepare('SELECT id, title, content, DATE_FORMAT(creation_date, \'%d/%m/%Y à %Hh%imin%ss\')
+                         AS creation_date_fr FROM posts WHERE id=? ');
+    $req->execute(array($articleId));
+    $article =$req ->fetch();
+    return $article;
+}
+
+public function modifyPost($articleId,$title,$articleContent){
+    $db= $this->dbConnect();
+    $req =$db->prepare('UPDATE posts SET title = :mTitle, content = :mContent
+                        WHERE id = :mId');   //!!!the ':' must follow up by the name no spaces.
+    $modifiedArticle=$req->execute(array(
+        'mTitle' => $title,
+        'mContent' =>$articleContent,
+        'mId' => $articleId
+    ));
+    return $modifiedArticle;
+}
+
+public function delectPost($articleId){//   any to way to remind before delect??.
+    $db= $this->dbConnect();
+    $req=$db->prepare('DELETE FROM posts WHERE id= :dId');
+    $delectedArticle = $req->execute(array(
+        'dId' =>$articleId
+    ));
+    return $delectedArticle;
+
+}
+
 
 
 public function getPosts(){   //we write the $this even with function Manager.
