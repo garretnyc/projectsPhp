@@ -17,6 +17,56 @@ function listPosts(){
    //needs to be modified,maybe not put codes here
 }
 
+function article($articleId){ //colone on articles
+    $postManager = new \phpTest\models\PostManager(); //anyway to make it fushion with functions below
+    $commentsManager =new \phpTest\models\CommentsManager();
+
+    $article = $postManager ->getArticles($articleId);
+    $comments =$commentsManager->getComments($articleId);
+
+    require('views/viewPageArticle.php');
+    
+   
+    //why no verifications of 'isset' --- we put in routreurs.
+}
+
+function pageEdit($articleId){
+    $postManager = new \phpTest\models\PostManager();
+    $commentsManager =new \phpTest\models\CommentsManager();
+
+    $article =$postManager->getArticles($articleId);
+    $comments =$commentsManager->getComments($articleId);
+
+    require('views/viewEditPage.php');
+
+
+}
+
+function editArticle($articleId,$title,$articleContent){ //!!!must add another function to edit comments here.
+    $postManager = new \phpTest\models\PostManager();
+    $commentsManager =new \phpTest\models\CommentsManager();
+
+    $modifiedArticle = $postManager->modifyPost($articleId,$title,$articleContent);
+     
+    if($modifiedArticle==false){  //is this neccesary???????.
+        throw new Exception('Impossible d\'modifier articles');
+     }else{
+         header('location:index.php?action=article&id='.$articleId);
+     }
+    
+}
+function delectArticle($articleId){   //must check the admin in session.
+    $postManager = new \phpTest\models\PostManager();
+
+    $delectedArticle =$postManager->delectPost($articleId);
+    if($delectedArticle==false){  //is this neccesary???????.
+        throw new Exception('Impossible de supprimer articles');
+     }else{
+         header('location:index.php?action=listArticles');
+     }//!!!scan not call viewAllArticles pages here,need data from models so need to call index.
+
+}
+
 function post(){
     $postManager = new \phpTest\models\PostManager();
     $commentsManager =new \phpTest\models\CommentsManager();
@@ -61,9 +111,28 @@ function verifyInscription($peusdo, $passInscr){
     }
      
 
+}
 
+function addLogins($pseudo,$passInscr){
+    $adminManager = new \phpTest\models\AdminManager();
 
+   // $login=$adminManager->getLogin($pseudo); can we do twice??.
+   $addLogin = $adminManager->addLogin($pseudo,$passInscr);
+   $newlogin = $adminManager->getLogin($pseudo);
+   //so we can use in different functions.
+    if($addLogin==false){
+       
+       throw new Exception ('Pseudo deja utilisé');
+       
+    }else{
+        session_start();
+        $_SESSION['pseudo']=$pseudo;
+        $_SESSION['id']=$newlogin['id']; 
+        //!!of course not work in the manager we only insert not read the data.
+        require('views/viewPageConnect.php');
 
+       
+    }
 }
 
 function verifyAdmin($loginId, $passHash){
@@ -81,8 +150,8 @@ function verifyAdmin($loginId, $passHash){
            echo 'Mauvais Identifiant ou Mot de Passe';
        }else{//this have to lead to admin pages
            if($isPasswordCorrect){   //$passHash==$login['pass']
-               session_start();
-               $_SESSION['peusdo']=$login['peusdo'];
+               session_start(); //call it everytime.
+               $_SESSION['pseudo']=$login['peusdo'];
                $_SESSION['id']=$login['id'];
                
                //echo $loginPass_hash ;
@@ -102,14 +171,19 @@ function verifyAdmin($loginId, $passHash){
 }
 
 function addArticles($title,$contentArticles){
-    $postManager =new \phpTest\models\PostManager();
-    $newArticle =$postManager->postArticles($title,$contentArticles);
-
-    if($newArticle==false){  //is this neccesary???????.
-       throw new Exception('Impossible d\'ajouter articles');
+    session_start();
+    if(isset($_SESSION['pseudo']) AND isset($_SESSION['id'])){
+         $postManager =new \phpTest\models\PostManager();
+         $newArticle =$postManager->postArticles($title,$contentArticles);
+     
+         if($newArticle==false){  //is this neccesary???????.
+            throw new Exception('Impossible d\'ajouter articles');
+         }else{
+             header('location:index.php?action=listArticles');
+         }
     }else{
-        header('location:index.php?action=listArticles');
-    }
+       throw new Exception('Veillez se connecter');
+}
 
     
 }

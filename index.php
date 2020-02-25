@@ -10,6 +10,21 @@ try{
         if($_GET['action'] == 'listPost'){
             listPosts();
         }
+        elseif($_GET['action'] == 'article'){
+            if(isset($_GET['id']) AND $_GET['id']>0){
+                article($_GET['id']);
+            }else {
+               throw new Exception( 'Erreur : aucun identifiant de billet envoyé');
+            }
+            
+        }
+        elseif($_GET['action']=='pageEdit'){ //we must verify if session connected by author
+            if(isset($_GET['id']) AND $_GET['id']>0){
+                editArticle($_GET['id']);
+            }else{
+                throw new Exception('Erreur: aucun billet trouvé');
+            }
+        }
         
         elseif($_GET['action'] == 'post'){
             if(isset($_GET['id']) AND $_GET['id']>0){
@@ -38,8 +53,7 @@ try{
 
         elseif($_GET['action']=='admin'){
             if(isset($_POST['peusdo']) && isset($_POST['pass']) ){
-               
-                
+
                 verifyAdmin($_POST['peusdo'],$_POST['pass']);
             }else{
                 throw new Exception('Veulliez verifier votre saisies');
@@ -49,9 +63,7 @@ try{
         elseif($_GET['action']=='deconnexion'){
             deconnexion();
         }
-        elseif($_GET['action']=='addArticles'){
-            addArticles();
-        }
+        
         elseif($_GET['action']=='inscription'){
             if (isset($_POST['pseudo']) && isset($_POST['mdp'])){
       
@@ -66,6 +78,18 @@ try{
                     verifyInscription($_POST['pseudo'],$_POST['mdp']);
                   }
              }
+        }
+        elseif($_GET['action']=='addArticles'){
+            if(!empty($_POST['editor']) && !empty($_POST['title'])){
+                addArticles($_POST['title'],$_POST['editor']);
+               
+            }else{
+                throw new Exception('Veilliez verifier votre saisies');
+            }
+
+        }
+        elseif($_GET['action']=='listArticles'){
+             listArticles();
         }
    
         

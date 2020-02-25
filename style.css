@@ -1,0 +1,438 @@
+/*@font-face{
+	font-family: 'Roboto-Regular';
+	 src: url('fonts/roboto-regular-webfont.woff') format('woff'),
+         url('fonts/roboto-regular-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'robotolight';
+    src: url('fonts/roboto-light-webfont.woff2') format('woff2'),
+         url('fonts/roboto-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+     font-family: 'glyphicons';
+     src: url('fonts/glyphicons-halflings-regular.eot') format('eot'),
+          url('fonts/glyphicons-halflings-regular.woff') format('woff');
+     font-weight: normal;
+     font-style: normal; 
+ }
+ @font-face {       
+    font-family: 'robotoblack';
+    src: url('fonts/roboto-black-webfont.woff2') format('woff2'),
+         url('fonts/roboto-black-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+ @font-face {      
+    font-family: 'roboto-medium';
+    src: url('fonts/roboto-medium-webfont.woff2') format('woff2'),
+         url('fonts/roboto-medium-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}*/
+
+
+
+
+
+header h1, #nos-services h2,#nos-projets h2,section h3 {
+	text-transform:uppercase;
+}
+
+
+body {
+	font-family: 'Roboto-Regular';
+	margin:0  ;
+}
+
+#contents-service p,#questionary p{
+	color: #616670;
+}
+#title-service p, .titlenp p{
+	 color: #373a3f;
+}
+
+
+
+
+header{
+	padding-top: 5.5em;
+}
+header #navbar {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding:0 0 1em 0;
+	background-color: rgb(255,255,255);
+	box-shadow: 0 2px 4px -1px rgba(0,0,0,0.25);
+	z-index: 1;
+}
+
+#navbar img {
+  padding-top: 1em;
+  padding-left: 18.5em;
+  width: 78px;
+}
+#list{
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+	font-size: 1em;
+	margin-right: 15em;
+  margin-top: 0;
+	color: #5C5C5C;
+	
+}
+#list li{
+ padding: 2em 1.5em 0 0.5em;
+}
+#navbar ul a {
+	color: black;
+	text-decoration: none;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+.active {
+  border-top: 1.5px solid white;
+}
+.active:hover{
+  border-top: 1.5px solid #4D9FBC;
+}
+
+#headerphoto {
+	width: 100%;
+	margin: auto;
+	position: relative;	
+	align-items: center;
+}
+#slide-container{
+	width: 100%;
+    overflow: hidden;
+    height: 700px;
+	
+}
+#slider-images {
+	display: flex;
+	flex-direction: row;
+	width:200%;
+	position: relative;
+	transition:transform 5s ease;
+}
+
+#slider-images:hover {
+   transform: translateX(-50%);
+}
+
+#thelinecolor {
+	position: absolute;
+	bottom: -8px;
+	left: 0;
+	width: 8%;
+	height: 5px;
+	background:#4D9FBC;
+	border: none;
+}
+
+.simages {
+	width: 50%;
+}
+
+.prev, .next {
+	cursor: pointer; /*new fonctions*/
+	position: absolute;
+	top: 50%;
+	margin-top: -22px;	
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	border-radius: 0 32px 32px 0;
+	background-color:rgba(51,51,51,0.5);
+}
+
+.prev {
+	padding: 16px 16px 16px 8px;
+}
+
+.next{
+	right: 0;
+	border-radius: 32px 0 0 32px;
+	padding:16px 8px 16px 16px;
+}
+
+#headerinfo {
+	position: absolute;
+	top: 35%;  /*Quand utiliser relative/absolute,utiliser que pourcentage*/
+	left: 10%;
+}
+
+#headerinfo h1 {
+    font-family: 'robotobold';
+	font-size: 2.1em;
+	font-weight: bold;
+	color: white;
+	margin:auto;
+}
+
+#headerinfo h1 span {
+	color:#5CADD3; 
+}
+
+#headerinfo p{
+	color: white;
+    font-size: 1em;
+    margin-top: 3em;
+	/*line-height: 1em;----use line-height not margin*/
+}
+
+#bottonheader{
+    margin-top: 3em;
+    }
+#bottonheader a {
+	padding: 8px 10px 8px 10PX;
+    /*width: 21%;*/
+	border:1px solid #5CADD3;
+	text-align: center;
+	border-bottom: 3px solid #5098ba;
+	background-color:#5CADD3;
+	border-radius: 3px;
+	border-left: none;
+	border-right: none; 
+	color:white;
+	font-size: 1.2em;
+	text-decoration:none;
+	font-family:'roboto-medium';
+    }
+
+    /*the articles*/
+    #articles{
+        text-align: center;
+    }
+    #presentations{
+        background-color: #373a3f;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    /*the comments*/
+    #Comments{
+        text-align: center;
+        background-color: rgb(126, 184, 231);
+    }
+    #commentElt{
+        margin: auto;
+        background-color: rgb(209, 127, 209);
+        width: 38%;
+        height: 8em;
+	}
+	
+	/*section books*/
+	#containerBooks{
+		text-align: center;
+
+	}
+	#theList{
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		list-style:none ;
+	}
+	#theList li{
+		margin: 1em 1.5em;
+	}
+	#theList img{
+		width: 15em;
+	
+	}
+
+	/*the footer*/
+	footer{
+		background-color:#343A40;
+		text-align:center;
+		margin-top:3em;
+		color: white;
+	}
+	
+#footersmain{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+#footerDescription P{
+
+padding-bottom: 1em;
+margin-bottom: auto;
+}
+
+#iconslist{
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;   
+}
+#iconslist li{
+    margin-bottom: auto;
+}
+#twit, #insta{
+	width: 48px;
+}
+#fb{
+	width: 58px;
+}
+
+#iconslist a{
+    color: #fff;
+    padding: 0.8rem 0.8rem;
+    margin-right: 0.5rem;
+    display: block;
+    margin-top: -1em;
+}
+#iconslist a:first-of-type{
+    color:#E5BFF1;
+}
+#iconslist .fab{
+    font-size: larger;
+}
+
+/*for pages Admin*/
+#adminlogin{
+	text-align: center;
+	background-color: rgb(8, 128, 116);
+	height:18em;
+    display: flex;
+    flex-direction: row;
+}
+#adminContainer{
+	margin:  auto 18px;
+	background-color: rgb(17, 121, 26);
+	text-align: center;
+	width: 50%;
+	height: 83%;
+	color: white;
+    
+}
+.loginElt{
+	margin-bottom: 13px;
+}
+.loginElt input{
+	width: 48%;
+    height: 30px;
+    border-radius: 5px;
+}
+#inscriptionContainer{
+    margin:  auto 18px;
+	background-color: rgb(17, 121, 26);
+	text-align: center;
+	width: 50%;
+	height: 83%;
+	color: white;
+}
+.form_line{
+    margin: 10px;
+}
+.form_line input{
+    border-radius: 5px;
+}
+#inscriptionContainer input[type="submit"]{
+    margin-top: 18px;
+}
+   
+/*here for backadmins*/
+#adminpage{
+	background-color: salmon;
+	height: auto;
+	color: rgb(255,255,255);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+#listsChapters{
+	width: auto;
+	height: 30%;
+	text-align: center;
+}
+#addChapters{
+	widows: 30%;
+	height: 30%;
+
+}
+
+.texteditor-container { 
+	width:700px;
+	height:365px;
+   }
+ textarea#editor {
+	width:500px !important;
+	border:1px solid red;
+	
+   }
+
+/*page for viewDeconnexion */
+#deconnexionElt{
+    background-color: salmon;
+    height: 18em;
+    color: rgb(255,255,255);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#reconnexion button{
+	color: white;
+}
+
+/*page viewPageArticle */
+#article a{
+	text-decoration: none;
+	color: black;
+	border-radius: 5px;
+}
+
+/*page viewEditPage */
+
+#pageEdit{
+	background-color: chocolate;
+	height: auto;
+	color: rgb(255,255,255);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+
+.texteditor-container { 
+	width:700px;
+	height:365px;
+   }
+ textarea#editor {
+	width:500px !important;
+	border:1px solid red;
+	
+   }
+
+   /* for connectPage*/
+   #connectPage{
+	background-color: salmon;
+	height: auto;
+	color: rgb(255,255,255);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+   }
