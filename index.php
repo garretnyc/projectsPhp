@@ -1,5 +1,6 @@
 <?php
 
+
 try{
     
     require('controllers/controller_improved.php');
@@ -20,10 +21,32 @@ try{
         }
         elseif($_GET['action']=='pageEdit'){ //we must verify if session connected by author
             if(isset($_GET['id']) AND $_GET['id']>0){
-                editArticle($_GET['id']);
+                pageEdit($_GET['id']);
             }else{
                 throw new Exception('Erreur: aucun billet trouvé');
             }
+        }
+        elseif($_GET['action']=='delectArticle'){
+            if(isset($_GET['id']) AND $_GET['id']>0){
+                delectArticle($_GET['id']);
+            }else{
+                throw new Exception('Erreur: impossible de supprimer cet article');
+            }
+
+        }
+        elseif($_GET['action']=='editArticle'){
+            if(isset($_GET['id']) AND ($_GET['id']>0)){
+                echo 'id is ok';
+              if(!empty($_POST['title']) AND !empty($_POST['editor'])){
+                  echo'this functions';
+                  editArticle($_GET['id'],$_POST['title'],$_POST['editor']);
+              }else{
+                throw new Exception( 'Erreur : tous les champs ne sont pas remplis !'); 
+              }
+            }else{
+                throw new Exception( 'Erreur : aucun identifiant de billet envoyé');
+            }
+
         }
         
         elseif($_GET['action'] == 'post'){
@@ -60,32 +83,37 @@ try{
             }
 
         }
+        
         elseif($_GET['action']=='deconnexion'){
             deconnexion();
         }
         
         elseif($_GET['action']=='inscription'){
             if (isset($_POST['pseudo']) && isset($_POST['mdp'])){
-      
-                
+       
                   if ($_POST['mdp'] !== $_POST['confirm_mdp'])
                   {
-                      echo "Vos mots de passe ne correspondent pas !";
+                    throw new Exception( "Vos mots de passe ne correspondent pas !");
                       require('views/viewAdmin.php');
                   }
                   else
                   {
-                    verifyInscription($_POST['pseudo'],$_POST['mdp']);
+                    addLogins($_POST['pseudo'],$_POST['mdp']);
                   }
+             }
+             else{
+                throw new Exception ('Votre saisir est incomplet');
              }
         }
         elseif($_GET['action']=='addArticles'){
-            if(!empty($_POST['editor']) && !empty($_POST['title'])){
-                addArticles($_POST['title'],$_POST['editor']);
-               
-            }else{
-                throw new Exception('Veilliez verifier votre saisies');
-            }
+           
+                if(!empty($_POST['editor']) && !empty($_POST['title'])){
+                    addArticles($_POST['title'],$_POST['editor']);
+                   
+                }else{
+                    throw new Exception('Veilliez verifier votre saisies');
+                }
+            
 
         }
         elseif($_GET['action']=='listArticles'){
