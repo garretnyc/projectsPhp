@@ -5,6 +5,7 @@ require_once('models/CommentsManager.php');
 require_once('models/AdminManager.php');
 
 
+
 function showLogin(){
     require('views/viewAdmin.php');
 }
@@ -21,16 +22,23 @@ function article($articleId){ //colone on articles
     $postManager = new \phpTest\models\PostManager(); //anyway to make it fushion with functions below
     $commentsManager =new \phpTest\models\CommentsManager();
 
-    $article = $postManager ->getArticles($articleId);
+    $article = $postManager ->getArticles($articleId); //!!!it's here to add two actions of article and comments.
     $comments =$commentsManager->getComments($articleId);
 
-    require('views/viewPageArticle.php');
+    if(empty($article)){
+        throw new Exception ('Aucun Article Trouvé');
+       
+    }else{
+
+        require('views/viewPageArticle.php');
+     }
     
    
     //why no verifications of 'isset' --- we put in routreurs.
 }
 
 function pageEdit($articleId){
+    if(isset($_SESSION['pseudo']) AND ($_SESSION['id']==1)){
     $postManager = new \phpTest\models\PostManager();
     $commentsManager =new \phpTest\models\CommentsManager();
 
@@ -38,33 +46,43 @@ function pageEdit($articleId){
     $comments =$commentsManager->getComments($articleId);
 
     require('views/viewEditPage.php');
+    }else{
+        throw new Exception ('veillez se connecter');
+    }
 
 
 }
 
 function editArticle($articleId,$title,$articleContent){ //!!!must add another function to edit comments here.
-    $postManager = new \phpTest\models\PostManager();
-    $commentsManager =new \phpTest\models\CommentsManager();
-
-    $modifiedArticle = $postManager->modifyPost($articleId,$title,$articleContent);
+    if(isset($_SESSION['pseudo']) AND ($_SESSION['id']==1)){
+         $postManager = new \phpTest\models\PostManager();
+         $commentsManager =new \phpTest\models\CommentsManager();
      
-    if($modifiedArticle==false){  //is this neccesary???????.
-        throw new Exception('Impossible d\'modifier articles');
-     }else{
-         header('location:index.php?action=article&id='.$articleId);
-     }
+         $modifiedArticle = $postManager->modifyPost($articleId,$title,$articleContent);
+          
+         if($modifiedArticle==false){  //is this neccesary???????.
+             throw new Exception('Impossible d\'modifier articles');
+          }else{
+              header('location:index.php?action=article&id='.$articleId);
+          }
+        }else{
+            throw new Exception ('Veillez se connecter');
+        }
     
 }
 function delectArticle($articleId){   //must check the admin in session.
-    $postManager = new \phpTest\models\PostManager();
-
-    $delectedArticle =$postManager->delectPost($articleId);
-    if($delectedArticle==false){  //is this neccesary???????.
-        throw new Exception('Impossible de supprimer articles');
-     }else{
-         header('location:index.php?action=listArticles');
-     }//!!!scan not call viewAllArticles pages here,need data from models so need to call index.
-
+    if(isset($_SESSION['pseudo']) AND ($_SESSION['id']==1)){
+        $postManager = new \phpTest\models\PostManager();
+    
+        $delectedArticle =$postManager->delectPost($articleId);
+        if($delectedArticle==false){  //is this neccesary???????.
+            throw new Exception('Impossible de supprimer articles');
+         }else{
+             header('location:index.php?action=listArticles');
+         }//!!!scan not call viewAllArticles pages here,need data from models so need to call index.
+    }else{
+        throw new Exception ('Veillez se connecter');
+    }
 }
 
 function post(){
@@ -79,6 +97,13 @@ function post(){
    
     //why no verifications of 'isset' --- we put in routreurs.
 }
+
+/*function comments($postId){
+    $commentsManager =new \phpTest\models\CommentsManager();
+
+    $commens=$commentsManager->getComments($postId);
+    require('views/viewPageArticle.php');
+}*/
 
 function deconnexion(){
     $adminManager = new phpTest\models\AdminManager();
@@ -125,7 +150,7 @@ function addLogins($pseudo,$passInscr){
        throw new Exception ('Pseudo deja utilisé');
        
     }else{
-        session_start();
+        //session_start();
         $_SESSION['pseudo']=$pseudo;
         $_SESSION['id']=$newlogin['id']; 
         //!!of course not work in the manager we only insert not read the data.
@@ -150,12 +175,16 @@ function verifyAdmin($loginId, $passHash){
            echo 'Mauvais Identifiant ou Mot de Passe';
        }else{//this have to lead to admin pages
            if($isPasswordCorrect){   //$passHash==$login['pass']
-               session_start(); //call it everytime.
+               //call it everytime.
                $_SESSION['pseudo']=$login['peusdo'];
                $_SESSION['id']=$login['id'];
+               if($_SESSION['id']==1){
                
                //echo $loginPass_hash ;
                require('views/backendAdmin.php');
+               }else{
+                 require('views/viewPageConnect.php');
+               }
 
            }else{
                echo 'Mauvais Identifiant ou Mot Passe';
@@ -171,8 +200,8 @@ function verifyAdmin($loginId, $passHash){
 }
 
 function addArticles($title,$contentArticles){
-    session_start();
-    if(isset($_SESSION['pseudo']) AND isset($_SESSION['id'])){
+    //session_start();
+    if(isset($_SESSION['pseudo']) AND ($_SESSION['id']==1)){
          $postManager =new \phpTest\models\PostManager();
          $newArticle =$postManager->postArticles($title,$contentArticles);
      
@@ -198,8 +227,9 @@ function addComments($postId, $author, $comment){
         throw new Exception('Impossible d\'ajouter le commentaire !');
 
     }else{
-        header('Location:index.php?action =post&id='.$postId);
+        header('Location:index.php?action=article&id='.$postId);
     }
+    
 }
 
 function listArticles(){
