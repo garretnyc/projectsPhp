@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 
 try{
     
@@ -14,6 +14,7 @@ try{
         elseif($_GET['action'] == 'article'){
             if(isset($_GET['id']) AND $_GET['id']>0){
                 article($_GET['id']);
+                
             }else {
                throw new Exception( 'Erreur : aucun identifiant de billet envoyé');
             }
@@ -58,9 +59,10 @@ try{
             
         }
         elseif($_GET['action']=='addComments'){
+            session_start();
             if(isset($_GET['id']) AND ($_GET['id']>0) ){
-                if(!empty($_POST['author']) AND !empty($_POST['comment'])    ){
-                    addComments($_GET['id'],$_POST['author'],$_POST['comment']);
+                if(!empty($_SESSION['pseudo']) AND !empty($_POST['comments'])    ){
+                    addComments($_GET['id'],$_SESSION['pseudo'],$_POST['comments']);
                 }else{
                     throw new Exception( 'Erreur : tous les champs ne sont pas remplis !');
                 }
